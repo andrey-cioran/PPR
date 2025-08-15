@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard PPR - Cálculo Final</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .weight-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #4a5568;
+            color: white;
+            border-radius: 9999px;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, #86efac, #22c55e);
+            color: #14532d;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">Dashboard de Simulação PPR</h1>
+            <p class="text-sm sm:text-base text-gray-600 mt-2">Simule o pagamento final (60% restantes) com base nas metas do ano.</p>
+        </header>
+
+        <!-- Container para os cards de indicadores -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            
+            <!-- Card EBITDA DPSP -->
+            <div class="card relative">
+                <div class="weight-badge">40%</div>
+                <h2 class="text-lg font-bold text-gray-700 mb-4">📊 EBITDA DPSP</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-600">Meta YTD:</span><span id="meta-ebitda" class="font-bold text-blue-600 float-right">100,00%</span></div>
+                    <div><label for="realizado-ebitda" class="font-semibold text-gray-600">Realizado YTD (%):</label><input type="number" id="realizado-ebitda" value="94" step="0.01" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 transition"></div>
+                    <div><span class="font-semibold text-gray-600">Atingimento YTD:</span><span id="atingimento-ebitda" class="font-bold text-lg text-blue-600 float-right">94,0%</span></div>
+                    <div><span class="font-semibold text-gray-600">% Salário:</span><span id="salario-ebitda" class="font-bold text-green-600 float-right">14,1%</span></div>
+                </div>
+            </div>
+
+            <!-- Card Ruptura de Loja -->
+            <div class="card relative">
+                <div class="weight-badge">20%</div>
+                <h2 class="text-lg font-bold text-gray-700 mb-4">🚚 Ruptura de Loja</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-600">Meta YTD:</span><span id="meta-ruptura" class="font-bold text-red-600 float-right">5,11%</span></div>
+                    <div><label for="realizado-ruptura" class="font-semibold text-gray-600">Realizado YTD (%):</label><input type="number" id="realizado-ruptura" value="5.02" step="0.01" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-red-500 transition"></div>
+                    <div><span class="font-semibold text-gray-600">Atingimento YTD:</span><span id="atingimento-ruptura" class="font-bold text-lg text-red-600 float-right">101,8%</span></div>
+                    <div><span class="font-semibold text-gray-600">% Salário:</span><span id="salario-ruptura" class="font-bold text-green-600 float-right">10,7%</span></div>
+                </div>
+            </div>
+
+            <!-- Card Nível de Serviço -->
+            <div class="card relative">
+                <div class="weight-badge">20%</div>
+                <h2 class="text-lg font-bold text-gray-700 mb-4">📦 Nível de Serviço</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-600">Meta YTD:</span><span id="meta-servico" class="font-bold text-purple-600 float-right">95,00%</span></div>
+                    <div><label for="realizado-servico" class="font-semibold text-gray-600">Realizado YTD (%):</label><input type="number" id="realizado-servico" value="94.21" step="0.01" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-purple-500 transition"></div>
+                    <div><span class="font-semibold text-gray-600">Atingimento YTD:</span><span id="atingimento-servico" class="font-bold text-lg text-purple-600 float-right">99,2%</span></div>
+                    <div><span class="font-semibold text-gray-600">% Salário:</span><span id="salario-servico" class="font-bold text-green-600 float-right">7,4%</span></div>
+                </div>
+            </div>
+
+            <!-- Card Produtividade -->
+            <div class="card relative">
+                <div class="weight-badge">20%</div>
+                <h2 class="text-lg font-bold text-gray-700 mb-4">⭐ Produtividade</h2>
+                <div class="space-y-3">
+                    <div><span class="font-semibold text-gray-600">Meta YTD:</span><span id="meta-produtividade" class="font-bold text-yellow-600 float-right">931</span></div>
+                    <div><label for="realizado-produtividade" class="font-semibold text-gray-600">Realizado YTD:</label><input type="number" id="realizado-produtividade" value="925" class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-yellow-500 transition"></div>
+                    <div><span class="font-semibold text-gray-600">Atingimento YTD:</span><span id="atingimento-produtividade" class="font-bold text-lg text-yellow-600 float-right">99,4%</span></div>
+                    <div><span class="font-semibold text-gray-600">% Salário:</span><span id="salario-produtividade" class="font-bold text-green-600 float-right">9,4%</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card para input do Salário -->
+        <div class="card mb-6 max-w-md mx-auto">
+            <label for="salario-base" class="font-semibold text-gray-700 text-lg">Seu Salário Base (R$):</label>
+            <input type="number" id="salario-base" placeholder="Ex: 3000.00" class="w-full mt-2 p-2 border rounded-md text-lg focus:ring-2 focus:ring-green-500 transition">
+        </div>
+
+        <!-- Card de Resumo e Pagamento Final -->
+        <div class="card summary-card text-center">
+            <h2 class="text-xl sm:text-2xl font-bold mb-2">Pagamento Final do PPR</h2>
+            <p class="text-sm sm:text-base mb-4">Simulação do valor final a receber.</p>
+            <div class="bg-white/50 rounded-lg p-4 max-w-md mx-auto">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-semibold text-base sm:text-lg">Total Acumulado:</span>
+                    <span id="total-salario" class="font-extrabold text-xl sm:text-2xl">41.6%</span>
+                </div>
+                 <div class="flex justify-between items-center mb-2 mt-3">
+                    <span class="font-semibold text-base sm:text-lg">Percentual Final a Receber:</span>
+                    <span id="percentual-final" class="font-extrabold text-xl sm:text-2xl text-green-900">25.0%</span>
+                </div>
+                <hr class="border-green-800/50 my-3">
+                <div class="mt-4">
+                    <p class="font-semibold text-lg sm:text-xl">Valor Final (Bruto):</p>
+                    <p id="valor-final-ppr" class="font-extrabold text-3xl sm:text-4xl mt-1">R$ 0,00</p>
+                    <p class="text-xs mt-2 opacity-80">*Valor referente aos 60% finais do PPR.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Funções de Formatação ---
+        const formatPercent = (value) => `${(value * 100).toFixed(1)}%`;
+        const formatCurrency = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+
+        // --- Função Principal de Cálculo ---
+        function calcularTudo() {
+            // --- 1. Obter valores dos inputs ---
+            const salarioBase = parseFloat(document.getElementById('salario-base').value) || 0;
+            const realizadoEbitda = parseFloat(document.getElementById('realizado-ebitda').value) / 100;
+            const realizadoRuptura = parseFloat(document.getElementById('realizado-ruptura').value) / 100;
+            const realizadoServico = parseFloat(document.getElementById('realizado-servico').value) / 100;
+            const realizadoProdutividade = parseFloat(document.getElementById('realizado-produtividade').value);
+
+            // --- 2. Obter valores das metas (CORRIGIDO) ---
+            const metaEbitdaText = document.getElementById('meta-ebitda').innerText;
+            const metaRupturaText = document.getElementById('meta-ruptura').innerText;
+            const metaServicoText = document.getElementById('meta-servico').innerText;
+
+            const metaEbitda = parseFloat(metaEbitdaText.replace(',', '.')) / 100;
+            const metaRuptura = parseFloat(metaRupturaText.replace(',', '.')) / 100;
+            const metaServico = parseFloat(metaServicoText.replace(',', '.')) / 100;
+            const metaProdutividade = parseFloat(document.getElementById('meta-produtividade').innerText);
+            
+            // --- 3. Calcular o "Atingimento" para cada indicador ---
+            const atingimentoEbitda = realizadoEbitda / metaEbitda;
+            const atingimentoServico = realizadoServico / metaServico;
+            const atingimentoProdutividade = realizadoProdutividade / metaProdutividade;
+            const atingimentoRuptura = metaRuptura / realizadoRuptura; // Lógica invertida: menor é melhor
+
+            // --- 4. Atualizar os campos de "Atingimento" na tela ---
+            document.getElementById('atingimento-ebitda').innerText = formatPercent(atingimentoEbitda);
+            document.getElementById('atingimento-ruptura').innerText = formatPercent(atingimentoRuptura);
+            document.getElementById('atingimento-servico').innerText = formatPercent(atingimentoServico);
+            document.getElementById('atingimento-produtividade').innerText = formatPercent(atingimentoProdutividade);
+
+            // --- 5. Calcular o bônus (% Salário) dinamicamente ---
+            const bonusAlvoEbitda = 0.15;
+            const bonusAlvoRuptura = 0.105;
+            const bonusAlvoServico = 0.075;
+            const bonusAlvoProdutividade = 0.095;
+
+            const salarioEbitda = atingimentoEbitda * bonusAlvoEbitda;
+            const salarioRuptura = atingimentoRuptura * bonusAlvoRuptura;
+            const salarioServico = atingimentoServico * bonusAlvoServico;
+            const salarioProdutividade = atingimentoProdutividade * bonusAlvoProdutividade;
+            
+            // --- 6. Atualizar os campos de "% Salário" na tela ---
+            document.getElementById('salario-ebitda').innerText = formatPercent(salarioEbitda);
+            document.getElementById('salario-ruptura').innerText = formatPercent(salarioRuptura);
+            document.getElementById('salario-servico').innerText = formatPercent(salarioServico);
+            document.getElementById('salario-produtividade').innerText = formatPercent(salarioProdutividade);
+
+            // --- 7. Calcular o resultado final ---
+            const totalSalarioPercent = salarioEbitda + salarioRuptura + salarioServico + salarioProdutividade;
+            const percentualFinalReceber = totalSalarioPercent * 0.60;
+            const valorFinalPPR = salarioBase * percentualFinalReceber;
+
+            // --- 8. Atualizar o card de resumo ---
+            document.getElementById('total-salario').innerText = formatPercent(totalSalarioPercent);
+            document.getElementById('percentual-final').innerText = formatPercent(percentualFinalReceber);
+            document.getElementById('valor-final-ppr').innerText = formatCurrency(valorFinalPPR);
+        }
+
+        // --- 9. Adicionar "escutadores" de eventos ---
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('input', calcularTudo);
+        });
+
+        // Chama a função uma vez no início para garantir que os valores estejam corretos
+        window.onload = calcularTudo;
+    </script>
+
+</body>
+</html>
